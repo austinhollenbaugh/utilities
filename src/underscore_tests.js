@@ -16,49 +16,146 @@ var _ = { };
   // Return an array of the first n elements of an array. If n is undefined,
   // return just the first element.
   _.first = function(array, n) {
+      var newArray = [];
+      if (n === undefined) {
+        return array[0];
+      } else if (n === 0) {
+        return [];
+      } else if (n > 0) {
+        for (var i = 0; i < n; i++) {
+          if (array[i]) {
+          	newArray.push(array[i]);
+          }
+      	}
+      }
+    return newArray;
   };
 
   // Like first, but for the last elements. If n is undefined, return just the
   // last element.
   _.last = function(array, n) {
+      var newArray = [];
+      if (n === undefined) {
+        return array[array.length - 1];
+      } else if (n === 0) {
+        return [];
+      } else if (n > 0) {
+      	// console.log('');
+        for (var i = array.length - 1; i > array.length - (n+ 1); i--) {
+        	// console.log('hit1');
+          if (array[i]) {
+          	newArray.unshift(array[i]);
+          }
+      	}
+      }
+    return newArray;
   };
 
   // Call iterator(value, key, collection) for each element of collection.
   // Accepts both arrays and objects.
-  _.each = function(collection, iterator) {
-  };
+_.each = function(collection, iterator) {
+  if (typeof collection === 'object') {
+      for (var key in collection) {
+        // console.log(collection[key]);
+        iterator(collection[key], key, collection);
+      }
+  } else {
+    	for (var i = 0; i < collection.length; i++) {
+        iterator(collection[i], i, collection);
+      }
+    }
+    return iterator;
+ };
 
   // Returns the index at which value can be found in the array, or -1 if value
   // is not present in the array.
   _.indexOf = function(array, target){
-  };
+	for (var i = 0; i < array.length; i++) {
+		// console.log(array[i]);
+		if (array[i] === target) {
+			return i;
+		}
+	}
+	return -1;
+};
 
   // Return all elements of an array that pass a truth test ('iterator' function argument)
   _.filter = function(collection, iterator) {
+	var newArr = [];
+	for (var i = 0; i < collection.length; i++) {
+		var value = iterator(collection[i]);
+		if (value) {
+			newArr.push(collection[i]);
+		}
+	}
+	return newArr;
   };
 
   // Return all elements of an array that don't pass a truth test (the 'iterator' function argument)
   _.reject = function(collection, iterator) {
+    var newArr = [];
+  	for (var i = 0; i < collection.length; i++) {
+  		var value = iterator(collection[i]);
+  		if (!value) {
+  			newArr.push(collection[i]);
+  		}
+  	}
+  	return newArr;
   };
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
-  };
+  	var newArr = [];
+  	for (var i = 0; i < array.length; i++) {
+  		if (i === 0) {
+  			newArr.push(array[i]);
+  		}
+  		for (var j = 0; j < newArr.length; j++) {
+  			if (array[i] === newArr[j]) {
+  				break;
+  			} else if (newArr[newArr.length - 1] === array[i]){
+  				break;
+  			} else {
+  				newArr.push(array[i]);
+  			}
+  		}
+  	}
+  	return newArr;
+};
 
 
   // Return the results of applying an iterator to each element.
   _.map = function(array, iterator) {
+    var newArr = [];
+    for (var i = 0; i < array.length; i++) {
+      newArr.push(iterator(array[i]));
+    }
+    return newArr;
   };
 
   // Takes an array of objects and returns and array of the values of
   // a certain property in it. E.g. take an array of people and return
   // an array of just their ages
   _.pluck = function(array, propertyName) {
-  };
+var newArr = [];
+// console.log(propertyName);
+  for (var i = 0; i < array.length; i++) {
+  	newArr.push(array[i][propertyName]);
+  }
+  return newArr;
+};
 
   // Calls the method named by methodName on each value in the list.
   _.invoke = function(list, methodName, args) {
-  };
+    	var newArr = [];
+    	for (var i = 0; i < list.length; i++) {
+        console.log(list[i]);
+        console.log(methodName);
+    		var item = list[i].methodName();
+    		newArr.push(item);
+    	}
+    	return newArr;
+};
 
   // Reduces an array or object to a single value by repetitively calling
   // iterator(previousValue, item) for each item. previousValue should be
